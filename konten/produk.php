@@ -5,12 +5,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">user</h1>
+          <h1 class="m-0">Produk</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Data Utama</a></li>
-            <li class="breadcrumb-item active">user</li>
+            <li class="breadcrumb-item active">Produk</li>
           </ol>
         </div><!-- /.col -->
       </div><!-- /.row -->
@@ -23,66 +23,61 @@
     <div class="container-fluid">
       <div class="card">
         <div class="card-header">
-          <h5>Ini Halaman user </h5>
+          <h5>Ini Halaman Produk </h5>
         </div>
         <div class="card-body">
           
           <table id="example1" class="table table-hover">
             <thead class="bg-purple">
-              <th>Id User</th>
-              <th>Nama</th>
-              <th>Username</th>
-              <th>Password</th>
-              <th>Hak Akses</th>
+              <th>Id Produk</th>
+              <th>Nama Produk</th>
+              <th>Harga</th>
+              <th>Stok</th>
               <th>Aksi</th>
             </thead>
             <?php
-            $sql = "SELECT * FROM user";
+            $sql = "SELECT * FROM produk";
             $query = mysqli_query($koneksi, $sql);
             while ($kolom = mysqli_fetch_array($query)) {
             ?>
               <tr>
-                <td><?= $kolom['id_user']; ?></td>
-                <td><?= $kolom['nama']; ?></td>
-                <td><?= $kolom['username']; ?></td>
-                <td><?= $kolom['password']; ?></td>
-                <td><?= $kolom['hak_akses']; ?></td>
+                <td><?= $kolom['produkid']; ?></td>
+                <td><?= $kolom['namaproduk']; ?></td>
+                <td><?= $kolom['harga']; ?></td>
+                <td><?= $kolom['stok']; ?></td>
                 <td>
                   <!--Tombol hapus -->
-                  <a href="#" data-toggle="modal" data-target="#modalUbah<?= $kolom['id_user']; ?>"><i class="fas fa-edit"></i></a>
+                  <a href="#" data-toggle="modal" data-target="#modalUbah<?= $kolom['produkid']; ?>"><i class="fas fa-edit"></i></a>
                   &nbsp;
                   <!--Tombol hapus -->
-                  | <a onclick="return confirm('Yakin akan menghapus data ini?')" href="aksi/user.php?aksi=hapus&id_user=<?= $kolom['id_user']; ?>"> <i class="fas fa-trash"></i></a>
+                  | <a onclick="return confirm('Yakin akan menghapus data ini?')" href="aksi/produk.php?aksi=hapus&produkid=<?= $kolom['produkid']; ?>"> <i class="fas fa-trash"></i></a>
                 </td>
               </tr>
-              <!--Modal Ubah user-->
-              <div class="modal fade" id="modalUbah<?= $kolom['id_user']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <!--Modal Ubah produk-->
+              <div class="modal fade" id="modalUbah<?= $kolom['produkid']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Ubah user</h5>
+                      <h5 class="modal-title" id="exampleModalLabel">Ubah produk</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
                     <div class="modal-body">
-                      <form action="aksi/user.php" method="post">
+                      <form action="aksi/produk.php" method="post">
                         <input type="hidden" name="aksi" value="ubah">
-                        <input type="hidden" name="id_user" value="<?= $kolom['id_user']; ?>">
+                        <input type="hidden" name="produkid" value="<?= $kolom['produkid']; ?>">
 
-                        <label for="user">Nama</label>
-                        <input type="text" name="nama" value="<?= $kolom['nama']; ?>" class="form-control" require>
+                        <label for="namaproduk">Nama Produk</label>
+                        <input type="text" name="namaproduk" value="<?= $kolom['namaproduk']; ?>" class="form-control" require>
                         <br>
-                        <label for="user">Username</label>
-                        <input type="text" name="username" value="<?= $kolom['username']; ?>" class="form-control" require>
+                        <label for="harga">harga</label>
+                        <input type="number" name="harga" value="<?= $kolom['harga']; ?>" class="form-control" require>
                         <br>
-                        <label for="user">Password</label>
-                        <input type="text" name="password" value="<?= $kolom['password']; ?>" class="form-control" require>
+                        <label for="stok">Stok</label>
+                        <input type="number" name="stok" value="<?= $kolom['stok']; ?>" class="form-control" require>
                         <br>
-                        <label for="user">Hak Akses</label>
-                        <input type="option" name="hak_akses" value="<?= $kolom['hak_akses']; ?>" class="form-control" require>
-                        <br>
-
+                        
                         <button type="submit" class="btn btn-block bg-purple"> <i class="fas fa-save">Simpan</i></button>
                       </form>
                     </div>
@@ -97,7 +92,7 @@
             } //Akhir While
             ?>
           </table>
-          <button type="button" class="btn bg-purple btn-block mt-3" data-toggle="modal" data-target="#modalTambah"> <i class="fas fa-plus">Tambah user Baru </i></button>
+          <button type="button" class="btn bg-purple btn-block mt-3" data-toggle="modal" data-target="#modalTambah"> <i class="fas fa-plus">Tambah produk Baru </i></button>
         </div>
       </div>
     </div>
@@ -107,34 +102,28 @@
 </div>
 <!-- /.content-wrapper -->
 
-<!--Modal Tambah user-->
+<!--Modal Tambah produk-->
 <div class="modal fade" id="modalTambah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Tambah user</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Tambah produk</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form action="aksi/user.php" method="post">
+        <form action="aksi/produk.php" method="post">
           <input type="hidden" name="aksi" value="tambah">
 
-          <label for="user">Nama</label>
-          <input type="text" name="nama" class="form-control" require>
+          <label for="namaproduk">Nama Produk</label>
+          <input type="text" name="namaproduk" class="form-control" require>
           <br>
-          <label for="user">Username</label>
-          <input type="text" name="username" class="form-control" require>
+          <label for="harga">Harga</label>
+          <input type="number" name="harga" class="form-control" require>
           <br>
-          <label for="user">Password</label>
-          <input type="password" name="password" class="form-control" require>
-          <br>
-          <label for="user">Hak Akses</label>
-          <select class="form-control" id="hak_akses" name="hak_akses">
-            <option value="1">1</option>
-            <option value="2">2</option>
-          </select>
+          <label for="stok">Stok</label>
+          <input type="number" name="stok" class="form-control" require>
           <br>
 
           <button type="submit" class="btn btn-block bg-purple"> <i class="fas fa-save">Simpan</i></button>

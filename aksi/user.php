@@ -1,6 +1,7 @@
 <?php 
 session_start();
 include "../koneksi.php";
+include "../function.php";
 
 if($_POST){
     if($_POST['aksi']=='tambah'){
@@ -9,9 +10,10 @@ if($_POST){
         $password=$_POST['password'];
         $hak_akses=$_POST['hak_akses'];
 
-        $sql="INSERT INTO user (id_user,nama,username,password,hak_akses,dibuat_pada,diubah_pada,dihapus_pada) VALUE (DEFAULT,'$nama','$username','$password','$hak_akses',DEFAULT,DEFAULT,DEFAULT)";
+        $sql="INSERT INTO user (id_user,nama,username,password,hak_akses) VALUE (DEFAULT,'$nama','$username','$password','$hak_akses')";
         //echo $sql;//Cek Perintah
         mysqli_query($koneksi,$sql);
+        notifikasi($koneksi);
 
         header('location:../index.php?p=user');
     }
@@ -23,7 +25,7 @@ if($_POST){
         $password=$_POST['password'];
         $hak_akses=$_POST['hak_akses'];
 
-        $sql="UPDATE user SET nama='$nama',username='$username', password='$password',hak_akses='$hak_akses', WHERE id_user=$id_user";
+        $sql="UPDATE user SET nama='$nama',username='$username', password='$password',hak_akses='$hak_akses' WHERE id_user=$id_user";
         //echo $sql;//Cek Perintah
         mysqli_query($koneksi,$sql);
 
@@ -54,22 +56,8 @@ if($_POST){
 }
 
 if($_GET){
+
     if($_GET['aksi']=='hapus'){
-        $id_user=$_GET['id_user'];
-        // $sql="DELETE FROM user WHERE id_user=$id_user"; //Hard Delete
-        $sql="UPDATE user SET dihapus_pada=now() WHERE id_user=$id_user"; //Soft Delete
-
-        mysqli_query($koneksi,$sql);
-        header('location:../index.php?p=user');
-    }
-    else if ($_GET['aksi']=='restore'){
-        $id_user=$_GET['id_user'];
-        $sql="UPDATE user SET dihapus_pada =NULL WHERE id_user=$id_user ";
-        mysqli_query($koneksi,$sql);
-        header('location:../index.php?p=user');
-
-    }
-    else if($_GET['aksi']=='hapus-permanen'){
         $id_user=$_GET['id_user'];
         $sql="DELETE FROM user WHERE id_user=$id_user"; 
 

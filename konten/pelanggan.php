@@ -5,12 +5,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">user</h1>
+          <h1 class="m-0">Pelanggan</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Data Utama</a></li>
-            <li class="breadcrumb-item active">user</li>
+            <li class="breadcrumb-item active">Pelanggan</li>
           </ol>
         </div><!-- /.col -->
       </div><!-- /.row -->
@@ -23,66 +23,61 @@
     <div class="container-fluid">
       <div class="card">
         <div class="card-header">
-          <h5>Ini Halaman user </h5>
+          <h5>Ini Halaman Pelanggan </h5>
         </div>
         <div class="card-body">
           
           <table id="example1" class="table table-hover">
             <thead class="bg-purple">
-              <th>Id User</th>
-              <th>Nama</th>
-              <th>Username</th>
-              <th>Password</th>
-              <th>Hak Akses</th>
+              <th>Pelanggan Id</th>
+              <th>Nama pelanggan</th>
+              <th>Alamat</th>
+              <th>NomorTelepon</th>
               <th>Aksi</th>
             </thead>
             <?php
-            $sql = "SELECT * FROM user";
+            $sql = "SELECT * FROM pelanggan";
             $query = mysqli_query($koneksi, $sql);
             while ($kolom = mysqli_fetch_array($query)) {
             ?>
               <tr>
-                <td><?= $kolom['id_user']; ?></td>
-                <td><?= $kolom['nama']; ?></td>
-                <td><?= $kolom['username']; ?></td>
-                <td><?= $kolom['password']; ?></td>
-                <td><?= $kolom['hak_akses']; ?></td>
+                <td><?= $kolom['pelangganid']; ?></td>
+                <td><?= $kolom['namapelanggan']; ?></td>
+                <td><?= $kolom['alamat']; ?></td>
+                <td><?= $kolom['nomortelepon']; ?></td>
                 <td>
                   <!--Tombol hapus -->
-                  <a href="#" data-toggle="modal" data-target="#modalUbah<?= $kolom['id_user']; ?>"><i class="fas fa-edit"></i></a>
+                  <a href="#" data-toggle="modal" data-target="#modalUbah<?= $kolom['pelangganid']; ?>"><i class="fas fa-edit"></i></a>
                   &nbsp;
                   <!--Tombol hapus -->
-                  | <a onclick="return confirm('Yakin akan menghapus data ini?')" href="aksi/user.php?aksi=hapus&id_user=<?= $kolom['id_user']; ?>"> <i class="fas fa-trash"></i></a>
+                  | <a onclick="return confirm('Yakin akan menghapus data ini?')" href="aksi/pelanggan.php?aksi=hapus&pelangganid=<?= $kolom['pelangganid']; ?>"> <i class="fas fa-trash"></i></a>
                 </td>
               </tr>
-              <!--Modal Ubah user-->
-              <div class="modal fade" id="modalUbah<?= $kolom['id_user']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <!--Modal Ubah pelanggan-->
+              <div class="modal fade" id="modalUbah<?= $kolom['pelangganid']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Ubah user</h5>
+                      <h5 class="modal-title" id="exampleModalLabel">Ubah pelanggan</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
                     <div class="modal-body">
-                      <form action="aksi/user.php" method="post">
+                      <form action="aksi/pelanggan.php" method="post">
                         <input type="hidden" name="aksi" value="ubah">
-                        <input type="hidden" name="id_user" value="<?= $kolom['id_user']; ?>">
+                        <input type="hidden" name="pelangganid" value="<?= $kolom['pelangganid']; ?>">
 
-                        <label for="user">Nama</label>
-                        <input type="text" name="nama" value="<?= $kolom['nama']; ?>" class="form-control" require>
+                        <label for="nama pelanggan">Nama Pelanggan</label>
+                        <input type="text" name="namapelanggan" value="<?= $kolom['namapelanggan']; ?>" class="form-control" require>
                         <br>
-                        <label for="user">Username</label>
-                        <input type="text" name="username" value="<?= $kolom['username']; ?>" class="form-control" require>
+                        <label for="alamat">Alamat</label>
+                        <input type="text" name="alamat" value="<?= $kolom['alamat']; ?>" class="form-control" require>
                         <br>
-                        <label for="user">Password</label>
-                        <input type="text" name="password" value="<?= $kolom['password']; ?>" class="form-control" require>
+                        <label for="nomortelepon">Nomor telepon</label>
+                        <input type="number" name="nomortelepon" value="<?= $kolom['nomortelepon']; ?>" class="form-control" require>
                         <br>
-                        <label for="user">Hak Akses</label>
-                        <input type="option" name="hak_akses" value="<?= $kolom['hak_akses']; ?>" class="form-control" require>
-                        <br>
-
+                        
                         <button type="submit" class="btn btn-block bg-purple"> <i class="fas fa-save">Simpan</i></button>
                       </form>
                     </div>
@@ -97,7 +92,7 @@
             } //Akhir While
             ?>
           </table>
-          <button type="button" class="btn bg-purple btn-block mt-3" data-toggle="modal" data-target="#modalTambah"> <i class="fas fa-plus">Tambah user Baru </i></button>
+          <button type="button" class="btn bg-purple btn-block mt-3" data-toggle="modal" data-target="#modalTambah"> <i class="fas fa-plus">Tambah pelanggan Baru </i></button>
         </div>
       </div>
     </div>
@@ -107,34 +102,28 @@
 </div>
 <!-- /.content-wrapper -->
 
-<!--Modal Tambah user-->
+<!--Modal Tambah pelanggan-->
 <div class="modal fade" id="modalTambah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Tambah user</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Tambah pelanggan</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form action="aksi/user.php" method="post">
+        <form action="aksi/pelanggan.php" method="post">
           <input type="hidden" name="aksi" value="tambah">
 
-          <label for="user">Nama</label>
-          <input type="text" name="nama" class="form-control" require>
+          <label for="namapelanggan">Nama Pelanggan</label>
+          <input type="text" name="namapelanggan" class="form-control" require>
           <br>
-          <label for="user">Username</label>
-          <input type="text" name="username" class="form-control" require>
+          <label for="alamat">Alamat</label>
+          <input type="text" name="alamat" class="form-control" require>
           <br>
-          <label for="user">Password</label>
-          <input type="password" name="password" class="form-control" require>
-          <br>
-          <label for="user">Hak Akses</label>
-          <select class="form-control" id="hak_akses" name="hak_akses">
-            <option value="1">1</option>
-            <option value="2">2</option>
-          </select>
+          <label for="nomortelepon">nomortelepon</label>
+          <input type="number" name="nomortelepon" class="form-control" require>
           <br>
 
           <button type="submit" class="btn btn-block bg-purple"> <i class="fas fa-save">Simpan</i></button>

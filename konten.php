@@ -4,52 +4,20 @@ if (empty($_GET['p'])){
   $title= "Sistem Informasi Biaya Pendidikan";
   $konten="konten/home.php";
 }
-
-else if($_GET['p']=='periode'){
-  $title= "Data Periode Pendidikan";
-  $konten="konten/periode.php";
-}
-else if($_GET['p']=='biaya'){
-  $title= "Data Biaya Pendidikan";
-  $konten="konten/biaya.php";
-}
-else if($_GET['p']=='siswa'){
-  $title= "Data Siswa";
-  $konten="konten/siswa.php";
-}
 else if($_GET['p']=='user'){
   $title= "Data User";
   $konten="konten/user.php";
 }
+else if($_GET['p']=='produk'){
+  $title= "Data produk";
+  $konten="konten/produk.php";
+}
+else if($_GET['p']=='pelanggan'){
+  $title= "Data pelanggan";
+  $konten="konten/pelanggan.php";
+}
 //Menu Untuk Transaksi
-else if($_GET['p']=='tagihan'){
-  $title= "Data Tagihan";
-  $konten="konten/tagihan.php";
-}
-else if($_GET['p']=='tagihan-info'){
-  $title= "Data Riwayat Transaksi Tagihan";
-  $konten="konten/tagihan-info.php";
-}
-else if($_GET['p']=='tagihan-edit'){
-  $title= "Ubah Data Tagihan";
-  $konten="konten/tagihan-edit.php";
-}
-else if($_GET['p']=='bayar'){
-  $title= "Data Pembayaran";
-  $konten="konten/bayar.php";
-}
-else if($_GET['p']=='bayar-tambah'){
-  $title= "Data Pembayaran Siswa";
-  $konten="konten/bayar-tambah.php";
-}
-else if($_GET['p']=='bayar-konfirmasi'){
-  $title= "Konfirmasi Pembayaran Siswa";
-  $konten="konten/bayar-konfirmasi.php";
-}
-else if($_GET['p']=='bayar-alokasi'){
-  $title= "Alokasi Pembayaran Siswa";
-  $konten="konten/bayar-alokasi.php";
-}
+
 else if($_GET['p']=='laporan'){
   $title= "laporan Sistem";
   $konten="konten/laporan.php";
