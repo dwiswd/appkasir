@@ -5,12 +5,13 @@ include "../function.php";
 
 if($_POST){
     if($_POST['aksi']=='tambah'){
+        $barcode=$_POST['barcode'];
         $namaproduk=$_POST['namaproduk'];
         $harga=$_POST['harga'];
         $stok=$_POST['stok'];
         
-        $sql="INSERT INTO produk (produkid,namaproduk,harga,stok) VALUE (DEFAULT,'$namaproduk','$harga','$stok')";
-        //echo $sql;//Cek Perintah
+        $sql="INSERT INTO produk (produkid,barcode,namaproduk,harga,stok) VALUES (DEFAULT,'$barcode','$namaproduk',$harga,$stok)";
+        // echo $sql;//Cek Perintah
         mysqli_query($koneksi,$sql);
         notifikasi($koneksi);
 
@@ -19,12 +20,13 @@ if($_POST){
 
     else if($_POST['aksi']=='ubah'){
         $produkid=$_POST['produkid'];
+        $barcode=$_POST['barcode'];
         $namaproduk=$_POST['namaproduk'];
         $harga=$_POST['harga'];
         $stok=$_POST['stok'];
         
 
-        $sql="UPDATE produk SET namaproduk='$namaproduk',harga='$harga', stok='$stok' WHERE produkid=$produkid";
+        $sql="UPDATE produk SET barcode='$barcode', namaproduk='$namaproduk',harga='$harga', stok='$stok' WHERE produkid=$produkid";
         //echo $sql;//Cek Perintah
         mysqli_query($koneksi,$sql);
 
@@ -41,6 +43,7 @@ if($_POST){
         if($ketemu>=1){
             $produk=mysqli_fetch_array($query);
             $_SESSION['harga']=$produk['harga'];
+            $_SESSION['barcode']=$produk['barcode'];
             $_SESSION['namaproduk']=$produk['namaproduk'];
             $_SESSION['produkid']=$produk['produkid'];
             $_SESSION['menu']="MANAJEMEN";
