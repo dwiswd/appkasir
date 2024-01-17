@@ -29,7 +29,9 @@
           <!-- Form Cari Produk -->
           <div class="form-row">
               <div class="form-group col-sm-2">
-                <form action="">
+                <form action="aksi/penjualan.php" method='post'>
+                  <input type="hidden" name="aksi" value="tambah-keranjang-bybarcode">
+
                     <input type="number" name="jumlah" class="form-control" value="1" placeholder="jumlah...">
                     </div>
                     <div class="form-group col-sm-4">
@@ -40,7 +42,7 @@
                         </form>
                     </div>
                     <div class="form-group col-sm-3">
-                        <button class="btn btn-block btn-success" type="button"><i class="fas fa-tags"></i>Cari by Nama</button>
+                        <button class="btn btn-block btn-success" type="button" data-toggle="modal" data-target="#cariProduk"><i class="fas fa-tags"></i>Cari by Nama</button>
                     </div>
             </div>
            <!-- Tutup Form Cari Produk -->
@@ -55,25 +57,41 @@
                     <th>Subtotal</th>
                 </tr>
                 </thead>
+                <?php
+                $no=0;
+                $total_item=0;
+                $total_belanja=0;
+                $id_user=$_SESSION['id'];
+                $sql_keranjang="SELECT keranjang.*,produk.namaproduk,produk.harga FROM keranjang,produk WHERE keranjang.produkid=produk.produkid AND id_user=$id_user";
+                $query_keranjang=mysqli_query($koneksi,$sql_keranjang);
+                while($keranjang=mysqli_fetch_array($query_keranjang)){
+                  $no++;
+                  $subtotal=$keranjang['harga']*$keranjang['jumlah'];
+                  $total_item=$total_item+$keranjang['jumlah'];
+                  $total_belanja=$total_belanja+$subtotal;
+                 ?>
                 <tr>
-                    <td><a href="#"><i class="fas fa-trash"></i></a></td>
-                    <td>1</td>
-                    <td>Fiesta Chicken Nugget 500G</td>
-                    <td align="right">34,500</td>
-                    <td align="right">2</td>
-                    <td align="right">69,000</td>
+                    <td><a href="aksi/penjualan.php?aksi=hapus-keranjang&produkid=<?=$keranjang['produkid']; ?>"><i class="fas fa-trash"></i></a></td>
+                    <td><?= $no; ?></td>
+                    <td><?= $keranjang['namaproduk']; ?></td>
+                    <td align="right"><?= number_format($keranjang['harga']); ?></td>
+                    <td align="right"><?= number_format($keranjang['jumlah']); ?></td>
+                    <td align="right"><?= number_format($subtotal); ?></td>
                 </tr>
+                <?php
+                }
+                ?>
                 <tr class="text-bold">
                     <td colspan="4">TOTAL</td>
-                <td align="right">2</td>
-                <td align="right">69,000</td>
+                <td align="right"><?= number_format($total_item); ?></td>
+                <td align="right"><?= number_format($total_belanja); ?></td>
 
                 </tr>
             
 
           </table>
 
-          <button class="btn btn-block bg-purple mt-3"><i class="fas fa-save"></i>Simpan penjualan</button>
+          <button class="btn btn-block bg-purple mt-3" data-toggle="modal" data-target="#simpanJual"><i class="fas fa-save"></i>Simpan penjualan</button>
           
         </div>
       </div>
@@ -84,38 +102,51 @@
 </div>
 <!-- /.content-wrapper -->
 
-<!--Modal Tambah user-->
-<div class="modal fade" id="modalTambah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<!--Modal Cari Produk-->
+<div class="modal fade" id="cariProduk" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Tambah user</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Pencarian Produk</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form action="aksi/user.php" method="post">
-          <input type="hidden" name="aksi" value="tambah">
+      <table id="example1" class="table table-hover">
+            <thead class="bg-purple">
+              <th>Id Produk</th>
+              <th>Barcode</th>
+              <th>Nama Produk</th>
+              <th>Harga</th>
+              <th>Jumlah</th>
+              <th>Pilih</th>
+            </thead>
+            <?php
+            $sql = "SELECT * FROM produk";
+            $query = mysqli_query($koneksi, $sql);
+            while ($kolom = mysqli_fetch_array($query)) {
+            ?>
+              <tr>
+                <td><?= $kolom['produkid']; ?></td>
+                <td><?= $kolom['barcode']; ?></td>
+                <td><?= $kolom['namaproduk']; ?></td>
+                <td><?=number_format($kolom['harga']); ?></td>
+                <td>
+                  <form action="aksi/penjualan.php" method="post">
+                    <input type="hidden" name="aksi" value="tambah-keranjang-bynama">
+                    <input type="hidden" name="produkid" value="<?= $kolom['produkid']; ?>">
+                    <input type="number" name="jumlah" class="form-control" value="1">
+                 
+                </td>
 
-          <label for="user">Nama</label>
-          <input type="text" name="nama" class="form-control" require>
-          <br>
-          <label for="user">Username</label>
-          <input type="text" name="username" class="form-control" require>
-          <br>
-          <label for="user">Password</label>
-          <input type="password" name="password" class="form-control" require>
-          <br>
-          <label for="user">Hak Akses</label>
-          <select class="form-control" id="hak_akses" name="hak_akses">
-            <option value="1">1</option>
-            <option value="2">2</option>
-          </select>
-          <br>
-
-          <button type="submit" class="btn btn-block bg-purple"> <i class="fas fa-save">Simpan</i></button>
-        </form>
+                <td>
+                  <button class="btn btn-info" type="submit"><i class="fas fa-check"></i>Pilih</button>
+                </form>
+                </td>
+              </tr>
+              <?php } ?>
+          </table>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -124,4 +155,43 @@
     </div>
   </div>
 </div>
+
+<!--Modal simpan Produk-->
+<div class="modal fade" id="simpanJual" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Masukan Data Pelanggan & Waktu Transaksi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <form action="aksi/penjualan.php" method="post"><input type="hidden" name="aksi" value="simpan-penjualan"><label for="pelangganid">Pelanggan</label><select name="pelangganid" class="form-control" required>
+        <?php
+        $sql1="SELECT * FROM pelanggan";
+        $query1=mysqli_query($koneksi,$sql1);
+        while($pelanggan=mysqli_fetch_array($query1)){
+          echo "<option value='$pelanggan[pelangganid]'>$pelanggan[namapelanggan]</option>";
+        }
+        ?>
+      </select>
+      <label for="tanggalpenjualan">Tanggal penjualan</label>
+      <input type="date" name="tanggalpenjualan" class="form-control" value="<? date ('Y-m-d'); ?>" required>
+
+      <label for="totalharga">Total Belanja</label>
+      <input type="number" name="totalharga" class="form-control" value="<?=$total_belanja; ?>" readonly>
+       
+      <button class="btn btn-info" type="submit"><i class="fas fa-save">Simpan penjualan</i></button>
+    
+    </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
 
