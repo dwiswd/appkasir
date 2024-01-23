@@ -63,7 +63,33 @@ if($_POST){
         $sql1="INSERT INTO penjualan(penjualanid,tanggalpenjualan,totalharga,pelangganid) values(default,'$tanggalpenjualan',$totalharga,$pelangganid)";
         //echo $sql1;
         if(mysqli_query($koneksi,$sql1)){
-            echo "Simpan Penjualan sukses";
+            //echo "Simpan Penjualan sukses";
+            //Mengambil Penjualanid Dari Tabel Penjualan
+            $sql2="SELECT MAX(penjualanid) AS lastid FROM penjualan";
+            $query2=mysqli_query($koneksi,$sql2);
+            $data=mysqli_fetch_array($query2);
+            $penjualanid=$data['lastid'];
+            //echo $penjualanid;
+
+            //Menyimpan Data Produk yang di beli ke tabel detailpenjualan yang diambil dari tabel keranjang 
+            $sql3="SELECT keranjang.*,produk.harga FROM keranjang,produk WHERE keranjang.produkid=produk.produkid AND id_user=$id_user";
+             //echo $sql3;
+
+             $query3=mysqli_query($koneksi,$sql3);
+             while($keranjang=mysqli_fetch_array($query3)){
+                $produkid=$keranjang['produkid'];
+                $jumlah=$keranjang['jumlah'];
+                $harga=$keranjang['harga'];
+
+                $sql4="INSERT INTO detailpenjualan(detailid,penjualanid,produkid,jumlahproduk,harga) values (default,$penjualanid,$produkid,$jumlah,$harga)";
+                //echo $sql4."<br>";
+                mysqli_query($koneksi,$sql4);
+             }
+             //Perintah mengosongkan keranjang 
+             mysqli_query($koneksi,"DELETE FROM keranjang WHERE id_user=$id_user");
+             notifikasi($koneksi);
+             header('location:../index.php?p=tambah');
+
         }
 
      }
@@ -117,6 +143,18 @@ if($_GET){
         mysqli_query($koneksi,$sql);
         notifikasi($koneksi);
         header('location:../index.php?p=tambah');
+
+    }
+    else if($_GET['aksi']=='hapus'){
+        $penjualanid=$_GET['penjualanid'];
+        $sql1="DELETE FROM penjualan WHERE penjualanid=$penjualanid"; 
+        mysqli_query($koneksi,$sql1);
+
+        $sql2="DELETE FROM detailpenjualan WHERE penjualanid=$penjualanid"; 
+        mysqli_query($koneksi,$sql2);
+
+        notifikasi($koneksi);
+        header('location:../index.php?p=histori');
 
     }
 }

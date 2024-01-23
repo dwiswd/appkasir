@@ -1,4 +1,5 @@
 <?php
+
     
 ?>
 <!-- Content Wrapper. Contains page content -->
@@ -27,10 +28,15 @@
         <!-- Small boxes (Stat box) -->
         <div class="row">
           <div class="col-lg-3 col-6">
+            <?php
+            $query= "SELECT * FROM produk";
+            $sql =mysqli_query($koneksi,$query);
+            $total_produk= mysqli_num_rows($sql);
+            ?>
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3></h3>
+                <h3><?=$total_produk ?></h3>
 
                 <p>Produk</p>
               </div>
@@ -42,10 +48,15 @@
           </div>
           <!-- ./col -->
           <div class="col-lg-3 col-6">
+          <?php
+            $query1= "SELECT * FROM penjualan";
+            $sql1 =mysqli_query($koneksi,$query1);
+            $penjualanid= mysqli_num_rows($sql1);
+            ?>
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3></h3>
+                <h3><?=$penjualanid ?></h3>
 
                 <p>Jumlah Transaksi</p>
               </div>
@@ -57,10 +68,16 @@
           </div>
           <!-- ./col -->
           <div class="col-lg-3 col-6">
+          <?php
+            $query2= "SELECT SUM(totalharga) AS total_transaksi FROM penjualan";
+            $sql2 =mysqli_query($koneksi,$query2);
+            $tt=mysqli_fetch_array($sql2);
+            $totaltransaksi= $tt['total_transaksi'];
+            ?>
             <!-- small box -->
             <div class="small-box bg-purple">
               <div class="inner">
-                <h3>Rp. </h3>
+                <h3><?= number_format($totaltransaksi) ?> </h3>
 
                 <p>Total Transaksi</p>
               </div>
@@ -72,12 +89,17 @@
           </div>
           <!-- ./col -->
           <div class="col-lg-3 col-6">
+            <?php 
+            $query3= "SELECT * FROM pelanggan";
+            $sql3=mysqli_query($koneksi,$query3);
+            $pelangganid=mysqli_num_rows($sql3);
+            ?>
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>Rp. </h3>
+                <h3><?= $pelangganid ?></h3>
 
-                <p>Total Keuntungan</p>
+                <p>Jumlah Pelanggan</p>
               </div>
               <div class="icon">
                 <i class="fas fa-exclamation-triangle"></i>
