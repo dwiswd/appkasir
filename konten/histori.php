@@ -49,7 +49,7 @@
                 
                 <td>
                   <!-- Tombol Print Nota   -->
-                  <a href="#"><i class="fas fa-print"></i></a>
+                  <a href="pdf/output/nota_jual.php?penjualanid=<?= $kolom['penjualanid']; ?>" target="_blank"><i class="fas fa-print"></i></a>
                   <!--tombol Informasi -->
                   <a href="index.php?p=infojual&penjualanid= <?= $kolom['penjualanid']; ?>"><i class="fas fa-search"></i></a>
                   <!-- Tombol Hapus -->
@@ -101,7 +101,9 @@
             } //Akhir While
             ?>
           </table>
-          <button type="button" class="btn bg-purple btn-block mt-3" data-toggle="modal" data-target="#modalTambah"> <i class="fas fa-plus">Tambah produk Baru </i></button>
+          <a href="index.php?p=tambah">
+            <button class="btn btn-info btn-block"><i class="fas fa-plus">Tambah Penjualan Baru</i></button>
+          </a>
         </div>
       </div>
     </div>
